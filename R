@@ -1,0 +1,160 @@
+# Using R:
+
+# Loading a table into R using read.table():
+file = path to the file you want to open
+sep = what character acts to separate the columns in your file. Usually \t or ,
+header = true / false, do you want the first row of your file to become the names of the columns in the data.frame
+row.names = which column do you want to be the row names in the data frame
+
+# If you want R to see data as data e.g. FALSE vs TRUE as opposed to just a txt string, then it needs to be a 'factor'.
+# To check the level order of a factor do:
+levels(table$column)
+# If x were table$significant, the output would “False” “True”
+# To change the order use e.g:
+table$column = factor(table$column,levels= c("True","False"))
+# If x were table$significant, the order would now be “True” “False”
+
+# To select part of a table (data frame):
+
+table[1,] # Select the first row
+row = table[1,] # Select the first row and store in variable
+col = table[,1] # Select the first column and store in variable
+table[1,1] # Select the first row and column
+table[1:3,1:3] # Select the first 3 rows and columns
+table[c(1,2,4,7),] # Select an assortment of rows
+rows_to_select = c(1,2,3,6,7) # Select an assortment of rows and columns using variables
+cols_to_select = c(1,4,5)
+table[rows_to_select,cols_to_select]
+
+# Or, you could use the row or column titles:
+table[“ENSG00000282221”,] # Select the first row
+table[,”mean_expression”] # Select the first column
+table[“ENSG00000282221”,”mean_expression”] # Select the first row and column
+cols_to_select = c(“log2fold”,”p”,”chromosome”) # Select several columns using a variable
+table[,cols_to_select]
+
+# A vector is a single row or a single column - i.e. a 1D thing. 
+# In contrast a table (data frame) is a 2D things - rowS and columnS
+
+# To make a vector use c():
+new_vector = c(“coding”,”coding”,”miRNA”,”miRNA”,”coding”,”lincRNA”,”coding”,”coding”,”coding”,”psuedo”)
+another_new_vector = c(“ENSG0000012”,156.12,11,5677858,5685034,-1.56,0.00123,”True”,”True”)
+# To add a new column to a dataframe can do:
+table$name_for_new_column = new_vector
+# Note that the new column must have the same number of rows as the dataframe itself.
+
+
+# To REMOVE rows or columns from a dataframe can do the same as to select, but add a '-' sign:
+table_trimmed = table[,-1] # removes first column
+table_trimmed = table[-1,] # removes first row
+table_trimmed = table[-c(1,2,3),] # removes first three rows
+
+# To REMOVE rows or colums from a data frame using logicals do:
+columns_to_remove = c(“HC_6”,”HC_8”)
+names(table) # this returns the header row as a vector
+names(table) %in% columns_to_remove # this returns “True”, “False”, “True”, “False”, “False”, “False”, “False”
+table_new = table[, !names(table) %in% columns_to_remove] # as a one liner, removes the 2 columns
+# it selects the columns NOT in
+# columns_to_remove
+table_new = table[!row.names(table) %in% rows_to_remove,] # equivalent for rows
+
+# How would I select only the significant genes?
+DE_table = read.table(file="DE_table_file.csv", header=TRUE, row.names = 1, sep='\t')
+DE_table_sig = subset(DE_table, p.adj < 0.05)
+
+# How would I select only the significant genes but save only the gene ID?
+DE_table = read.table(file="DE_table_file.csv", header=TRUE, row.names = 1, sep='\t')
+DE_table_sig_IDs = subset(DE_table, p.adj < 0.05)$ID
+
+# The function subset() is for selecting data that is identical to a certain 'thing' or that meets certain requirements: 
+table_subset = subset(table, chromosome == 1) # select only rows with chromosome 1
+table_subset = subset(table, log2fold > 0) # select only rows with positive fold
+table_subset = subset(table, log2fold > 0 & p < 0.05) # select only significant rows with positive fold
+
+# To re-order rows or columns use:
+# Option 1. By index.
+# If we supply a list of column or row indexes to the data frame the resulting order will be as the list. Obviously
+# this will also remove any rows/ columns that aren’t included the order list.
+new_order = c(5,4,3,2,1)
+table_row_ordered = table[new_order,] # Makes a table of the first 5 rows in reverse order
+table_col_ordered = table[,new_order] # Makes a table of the first 5 columns in reverse order
+
+# Option 2. By ID.
+# Exactly as above, but ordering by id
+new_order = c(“replicate_5”, “replicate_4”, “replicate_3”, “replicate_2”, “replicate_1”)
+table_row_ordered = table[new_order,] # Makes a table of the first 5 rows in reverse order
+table_col_ordered = table[,new_order] # Makes a table of the first 5 columns in reverse order
+
+# Note, can also use the above to duplicate a column - e.g. new_order = c(1,1,1,1)
+
+# To SORT data by values in a column: 
+# We can also formally sort all rows / columns by value.
+order(my_table$p) # returns a list of ROW INDEXES for the rows sorted by column p.
+my_table_sorted = [order(my_table$p),] # sorts the rows by value of p coumn
+
+
+# To RE-NAME column headers or row names:
+# Columns
+names(table) = c(“HC1”,”HC2”,”HC3”,”HC4”,”HC5”,”HC6”,”HC7”) # supply a new list of names
+# Rows
+row.names(table) = c(“gene1”,”gene2”,”gene3”,“gene4”,”gene5”,”gene6”,“gene6”,”gene7”,”gene8”,”gene9”)
+
+# To combine tables by adding additional columns, or additional rows:
+
+# By Column:
+# Assumes the rows are the same and adds table 2 as a series of new columns to table 1.
+combined_table = cbind(table1,table2)
+# By Row:
+# Assumes the column headers are the same in each table (and same order?) and adds table 2 as new rows below table 1.
+combined_table = rbind(table1,table2)
+
+# How would I merge the expression and differential expression tables?
+DE_table = read.table(file="DE_table_file.csv", header=TRUE, row.names = 1, sep='\t')
+E_table = read.table(file="E_table_file.csv", header=TRUE, row.names = 1, sep='\t')
+merged_data = merge(DE_table, E_table, by=0)
+# Note, that, in the above line, by=0 represents the row names. Could also put by="ID", or by="SHEEP_ID" etc.
+# Note that in order to merge two tables, the column header must be the SAME in each table.
+# The default behaviour of merge() is to keep only rows that are the same in both tables. 
+
+
+## I'm melting! I'm melting!
+# To get a table to change from:
+Sheep_ID  FEC_1  FEC_2
+Sheep_1 100 53  
+Sheep_2 300 23
+
+# To:
+Sheep_ID  FEC Value
+Sheep_1 1 100
+Sheep_1 2 53
+Sheep_2 1 300
+Sheep_2 2 23
+
+# Then you want to MELT the table:
+install.packages(“reshape2”)
+table_melted = melt(table)
+
+# I think it will melt every column, keeping the first column as was (but obiously with many more rows), and all additional
+# columns will become under col_2, with their row values under col_3.
+
+### Other useful functions:
+nrow(table) # gets the number of rows in the data frame
+ncol(table) # gets the number of columns in the data frame
+head(table,n) # returns the first n rows
+tail(table,n) # returns the last n rows
+t(table) # transposes the data frame *but returns a matrix.
+data.frame(table) # casts a matrix into a data frame
+table_transposed = data.frame(t(table)) # transpose and cast back
+cor(table) # returns a matrix of correlations
+names(table) # accesses the column names
+row.names(table) # accesses the row names
+scale(table) # converts values to z-score. Be careful… it works by col not row.
+
+
+########## SAVE #################
+# To save a data frame as a file use write.table()
+write.table(my_table, file=”new_file.csv”, row.names=FALSE, sep=”\t”, quote= FALSE) # saves the frame to a file
+
+# To save the entire R environment to disc and then reload it use save.image()
+save.image(“R_environment_file.rdata”)
+load(“R_environment_file.rdata”)
