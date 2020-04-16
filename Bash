@@ -1,0 +1,7 @@
+# Using Bash
+
+# How would I select only the significant genes?
+cat DE_table_file.csv | awk ‘{FS=”\t”; OFS=”\t”}{if ($5 < 0.05){print}}’ > results_file.csv
+
+# How would I select only the significant genes but save only the gene ID?
+cat DE_table_file.csv | awk ‘{FS=”\t”; OFS=”\t”}{if ($5 < 0.05){print $1}}’ > results_file.csv
