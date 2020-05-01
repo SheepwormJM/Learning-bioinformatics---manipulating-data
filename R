@@ -103,6 +103,13 @@ table_col_ordered = table[,new_order] # Makes a table of the first 5 columns in 
 order(my_table$p) # returns a list of ROW INDEXES for the rows sorted by column p.
 my_table_sorted = [order(my_table$p),] # sorts the rows by value of p coumn
 
+# To sort a factor:
+## Hmmm, so the Raing is not being seen in the correct order - <20, >40, 20-30, 30-40. 
+# To re-order can do:
+fe_ordered<-ordered(fe$Raing, levels = c("<20", "20-30", "30-40", ">40"))
+fe$Raingord<-fe_ordered
+class(fe$Raingord)
+# "ordered" "factor"
 
 # To RE-NAME column headers or row names:
 # Columns
