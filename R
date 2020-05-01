@@ -43,6 +43,17 @@ another_new_vector = c(“ENSG0000012”,156.12,11,5677858,5685034,-1.56,0.00123
 table$name_for_new_column = new_vector
 # Note that the new column must have the same number of rows as the dataframe itself.
 
+# To add a vector to a data table can do:
+
+df$new_col<- c(0, 1, 2 ,3, 4, 5) 
+df$new_col<- rep(c(0, 7), times = c(4,2))
+# [1] 0 0 0 0 7 7
+df$new_col<- rep(c(2, 4, 2), each = 3)
+# [1] 2 2 2 4 4 4 2 2 2
+df$new_col<- rep(c(0, 0, 7), times = 3)
+# [1] 0 0 7 0 0 7 0 0 7
+de$new_col <- rep(1:3,length.out=7)
+# [1] 1 2 3 1 2 3 1
 
 # To REMOVE rows or columns from a dataframe can do the same as to select, but add a '-' sign:
 table_trimmed = table[,-1] # removes first column
@@ -153,7 +164,7 @@ scale(table) # converts values to z-score. Be careful… it works by col not row
 
 ########## SAVE #################
 # To save a data frame as a file use write.table()
-write.table(my_table, file=”new_file.csv”, row.names=FALSE, sep=”\t”, quote= FALSE) # saves the frame to a file
+write.table(my_table, file="new_file.csv", row.names=FALSE, sep="\t", quote= FALSE) # saves the frame to a file
 
 # To save the entire R environment to disc and then reload it use save.image()
 save.image(“R_environment_file.rdata”)
