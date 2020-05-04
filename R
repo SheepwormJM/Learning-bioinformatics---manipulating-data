@@ -14,6 +14,12 @@ levels(table$column)
 table$column = factor(table$column,levels= c("True","False"))
 # If x were table$significant, the order would now be “True” “False”
 
+# How many rows and columns are there?
+dim(df)
+
+# How many unique farms are there?
+unique(df$farms)
+
 # To select part of a table (data frame):
 
 table[1,] # Select the first row
@@ -66,7 +72,6 @@ Z<- rep(Z, c(3,1,2)) # This will repeat the vector Z, but repeating the first va
 eg<-rep(c(1,2,3), c(2,3,2))
 # eg
 # [1] 1, 1, 2, 2, 2, 3, 3
-
 
 
 # To REMOVE rows or columns from a dataframe can do the same as to select, but add a '-' sign:
@@ -124,7 +129,7 @@ fe_ordered<-ordered(fe$Raing, levels = c("<20", "20-30", "30-40", ">40"))
 fe$Raingord<-fe_ordered
 class(fe$Raingord)
 # "ordered" "factor"
-
+f
 # To RE-NAME column headers or row names:
 # Columns
 names(table) = c(“HC1”,”HC2”,”HC3”,”HC4”,”HC5”,”HC6”,”HC7”) # supply a new list of names
@@ -175,12 +180,16 @@ ncol(table) # gets the number of columns in the data frame
 head(table,n) # returns the first n rows
 tail(table,n) # returns the last n rows
 t(table) # transposes the data frame *but returns a matrix.
+data.frame(A, B, C, stringsAsFactors=FALSE) # Makes a dataframe from three vectors (A, B and C), and retains the vector class. Otherwise would turn
+# them into factors, which can have levels, and can influence downstream code/functions etc. The dataframe can have variables of different
+# classes, unlike a matrix (matrix()) wich makes everything a character if there is non-numerical data in it. 
 data.frame(table) # casts a matrix into a data frame
 table_transposed = data.frame(t(table)) # transpose and cast back
 cor(table) # returns a matrix of correlations
 names(table) # accesses the column names
 row.names(table) # accesses the row names
 scale(table) # converts values to z-score. Be careful… it works by col not row.
+str() # Provides information on the structure and classes of data within a dataframe.
 
 
 ########## SAVE #################
