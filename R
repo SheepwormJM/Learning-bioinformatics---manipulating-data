@@ -5,6 +5,7 @@
 ###################################################################################################################################
 
 # A vector is a single row or a single column - i.e. a 1D thing. 
+# A vector can be NUMERICAL, or a CHARACTER, or a LOGICAL vector (eg. TRUE or FALSE)
 # In contrast a table (data frame) is a 2D things - rowS and columnS
 
 # To make a vector use c():
@@ -38,6 +39,72 @@ eg<-rep(c(1,2,3), c(2,3,2))
 # eg
 # [1] 1, 1, 2, 2, 2, 3, 3
 
+# To select part of a vector:
+a <- c(0,1,2,3,4,5) # creates a vector 'a' of 6 entries, which are numerical
+z<-a[c(1,3)] # This will select just the first and third entries in the vector 'a'.
+
+###################################################################################################################################
+##############################################    MATRICES   ########################################################################
+###################################################################################################################################
+
+# All columns in a matrix MUST have the same mode (numeric, character, etc.) and the same length. 
+# It will take your vector and turn it into a matrix.
+# The general format is:
+
+mymatrix <- matrix(vector, nrow=r, ncol=c, byrow=FALSE, dimnames=list(char_vector_rownames, char_vector_colnames))
+
+byrow=TRUE # indicates that the matrix should be filled by rows. 
+byrow=FALSE # indicates that the matrix should be filled by columns (the default). 
+dimnames # provides optional labels for the columns and rows.
+
+# generates 5 x 4 numeric matrix
+y<-matrix(1:20, nrow=5,ncol=4)
+
+     [,1] [,2] [,3] [,4]
+[1,]    1    6   11   16
+[2,]    2    7   12   17
+[3,]    3    8   13   18
+[4,]    4    9   14   19
+[5,]    5   10   15   20
+
+# another example
+cells <- c(1,26,24,68)
+rnames <- c("R1", "R2")
+cnames <- c("C1", "C2")
+mymatrix <- matrix(cells, nrow=2, ncol=2, byrow=TRUE, dimnames=list(rnames, cnames))
+  
+   C1 C2
+R1  1 26
+R2 24 68
+
+# Identify rows, columns or elements using subscripts.
+x[,4] # 4th column of matrix
+x[3,] # 3rd row of matrix
+x[2:4,1:3] # rows 2,3,4 of columns 1,2,3
+
+###################################################################################################################################
+##############################################    ARRAYS   ########################################################################
+###################################################################################################################################
+
+# Arrays are similar to matrices but can have more than two dimensions. See help(array) for details.
+
+###################################################################################################################################
+##############################################    DATA FRAMES   ###################################################################
+###################################################################################################################################
+
+# A data frame is more general than a matrix, in that different columns can have different modes (numeric, character, factor, etc.).
+
+d <- c(1,2,3,4)
+e <- c("red", "white", "red", NA)
+f <- c(TRUE,TRUE,TRUE,FALSE)
+mydata <- data.frame(d,e,f)
+names(mydata) <- c("ID","Color","Passed") # variable names
+
+# There are a variety of ways to identify the elements of a data frame .
+
+myframe[3:5] # columns 3,4,5 of data frame
+myframe[c("ID","Age")] # columns ID and Age from data frame
+myframe$X1 # variable x1 in the data frame
 
 ###################################################################################################################################
 ##############################################    TABLES   ########################################################################
@@ -207,3 +274,43 @@ write.table(my_table, file="new_file.csv", row.names=FALSE, sep="\t", quote= FAL
 # To save the entire R environment to disc and then reload it use save.image()
 save.image(“R_environment_file.rdata”)
 load(“R_environment_file.rdata”)
+
+
+
+###################################################################################################################################
+##############################################    LISTS   #########################################################################
+###################################################################################################################################
+
+# An ordered collection of objects (components). A list allows you to gather a variety of (possibly unrelated) objects under one name.
+
+# example of a list with 4 components -
+# a string, a numeric vector, a matrix, and a scaler
+w <- list(name="Fred", mynumbers=a, mymatrix=y, age=5.3)
+
+> w
+$name
+[1] "Fred"
+
+$mynumbers
+[1] 0 1 2 3 4 5
+
+$mymatrix
+     [,1] [,2] [,3] [,4]
+[1,]    1    6   11   16
+[2,]    2    7   12   17
+[3,]    3    8   13   18
+[4,]    4    9   14   19
+[5,]    5   10   15   20
+
+$age
+[1] 5.3
+
+# example of a list containing two lists
+v <- c(list1,list2)
+
+# Identify elements of a list using the [[]] convention.
+mylist[[2]] # 2nd component of the list
+mylist[["mynumbers"]] # component named mynumbers in list
+
+
+
