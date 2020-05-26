@@ -250,6 +250,13 @@ merged_data = merge(DE_table, E_table, by=0)
 # Note, that, in the above line, by=0 represents the row names. Could also put by="ID", or by="SHEEP_ID" etc.
 # Note that in order to merge two tables, the column header must be the SAME in each table.
 # The default behaviour of merge() is to keep only rows that are the same in both tables. 
+#### @@@@ ##### Important - after merging, the rownames become column 1!
+# Re-make the rownames (as are now column 1, and get called Row.names)
+row.names(new)<-new$Row.names
+head(new)
+# Note, good but now have to remove the col Row.names
+new_EM<-new[,-1]
+head(new_EM)
 
 
 ## I'm melting! I'm melting!
