@@ -1,0 +1,14 @@
+# To join text together:
+paste()
+sentence <- paste("I", "am", "free", sep=" ")
+
+# Can get mean, sd etc etc
+mean()
+sd()
+
+# Can make a list
+c()
+
+# Can get the power of a number:
+# 50 squared:
+power(50,2)
