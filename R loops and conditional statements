@@ -5,8 +5,24 @@ for (i in 1:10)
   
 # The loop says that for all numbers of 1:10, if they are >2 and <7 then to print them.
 
+# How about if you wanted just even numbers?
+# if I divide two numbers using % instead of / it returns the REMAINDER.
+# E.g.
+# 9 %% 2 # will return 1
+# 8 %% 2 # will return 0
+for (i in 1:10)   { if ((i %% 2) == 0) { print (i)} }
+
+
 # How about if you are doing RNA-Seq and you want sig genes with log2FC > x?
 # Make a conditional statement:
 
 if (padj < 0.05 && log2FC >1) {print ("significant")}
 
+# Can have some fun: 
+x = 10
+if (x > 0) {print("I am bigger than zero")}
+if (x < 0) {print("I am smaller than zero")}
+if (x != 0) {print("I am not zero")}
+if (x > 0) {print("I am zero")}
+# Note, if try this with a vector it will just use the first entry in the vector and throw up a warning message telling you so.
+# Also - the above expressions will only print something if TRUE. If not true they will print nothing at all. 
