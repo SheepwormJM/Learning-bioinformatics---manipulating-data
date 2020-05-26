@@ -1,0 +1,12 @@
+# Make an iterative loop combined with a conditional statement:
+
+for (i in 1:10)
+  { if (i > 2 && i < 7) print (i) }
+  
+# The loop says that for all numbers of 1:10, if they are >2 and <7 then to print them.
+
+# How about if you are doing RNA-Seq and you want sig genes with log2FC > x?
+# Make a conditional statement:
+
+if (padj < 0.05 && log2FC >1) {print ("significant")}
+
