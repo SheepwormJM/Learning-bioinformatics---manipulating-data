@@ -41,7 +41,17 @@ eg<-rep(c(1,2,3), c(2,3,2))
 
 # To select part of a vector:
 a <- c(0,1,2,3,4,5) # creates a vector 'a' of 6 entries, which are numerical
-z<-a[c(1,3)] # This will select just the first and third entries in the vector 'a'.
+z<-a[c(1,3)] # This will select just the first and third entries/indexes in the vector 'a'.
+
+# You can replace a value in a vector:
+a[3] = "blue" # replaces the third value with blue
+a[3] = 72 # replaces the third value with 72
+
+# How to run a simple loop using a vector:
+x<-c(1:10)
+for(i in x){print(log10(x[i]))} # prints the log10 of each value of x
+for(i in x){print(log10(x))} # prints the log10 of each value of x 10 times over.
+
 
 ###################################################################################################################################
 ##############################################    MATRICES   ########################################################################
@@ -116,6 +126,9 @@ sep = what character acts to separate the columns in your file. Usually \t or ,
 header = true / false, do you want the first row of your file to become the names of the columns in the data.frame
 row.names = which column do you want to be the row names in the data frame
 
+expression<-read.table("EM.csv", header=T, row.names = 1)
+DE<-read.table("DE_DP_mL_vs_DP_LP.csv", header=T, row.names = 1)
+
 # If you want R to see data as data e.g. FALSE vs TRUE as opposed to just a txt string, then it needs to be a 'factor'.
 # To check the level order of a factor do:
 levels(table$column)
@@ -163,6 +176,15 @@ table_new = table[, !names(table) %in% columns_to_remove] # as a one liner, remo
 # columns_to_remove
 table_new = table[!row.names(table) %in% rows_to_remove,] # equivalent for rows
 
+
+# You could ADD columns with data returned by a function:
+# This table has 9 samples - 3 each of gut, lymph and node, each in a separate column. 
+# The rows are the genes. 
+# I calulate the mean expression of eaech sample set. The data table is called 'expression'.
+expression$gut_mean<-rowMeans(expression[,grep("gut", names(expression))])
+expression$lymph_mean<-rowMeans(expression[,grep("lymph", names(expression))])
+expression$node_mean<-rowMeans(expression[,grep("node", names(expression))])
+
 # How would I select only the significant genes?
 DE_table = read.table(file="DE_table_file.csv", header=TRUE, row.names = 1, sep='\t')
 DE_table_sig = subset(DE_table, p.adj < 0.05)
@@ -195,7 +217,8 @@ table_col_ordered = table[,new_order] # Makes a table of the first 5 columns in 
 # To SORT data by values in a column: 
 # We can also formally sort all rows / columns by value.
 order(my_table$p) # returns a list of ROW INDEXES for the rows sorted by column p.
-my_table_sorted = [order(my_table$p),] # sorts the rows by value of p coumn
+my_table_sorted = my_table[order(my_table$p),] # sorts the rows by value of p coumn INCREASING value
+my_table_sorted = my_table[order(-my_table$p),] # sorts the rows by value of p column DECREASING value
 
 # To sort a factor:
 ## Hmmm, so the Raing is not being seen in the correct order - <20, >40, 20-30, 30-40. 
