@@ -1,0 +1,26 @@
+# The package dplyr can be very helpful!
+
+# Note, if %>% does not work then it is because dplyr is not loaded. 
+
+install.packages("dplyr")
+library(dplyr)
+
+
+###################   Piping commands in R using %>%  ######################
+# This is like the pipe operator | in linux.
+# Great! 
+# For example...
+# f(x) can be rewritten as x %>% f
+# Log(x) is written as x %>% log()
+
+# Lets filter a dataset (d), select a column and count it:
+d %>%
+filter(WT6_LTS==138) %>%
+select(id) %>%
+count
+# 21.... 
+
+# For more on pipes in R see (https://www.datacamp.com/community/tutorials/pipe-r-tutorial)
+
+##############################################################################
+
