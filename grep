@@ -5,12 +5,20 @@
 find . -name "tc_171026.fa" | xargs grep -E '>scaffold2239,*' -A 1 > scaffold_2239
 
 # But this did NOT extract the whole transcript. :( 
-find . -name "WBPS15gff3_pep.fasta" | xargs grep -E '*-0002' -A 1 > Second_transcripts
+find . -name "WBPS15gff3_pep.fasta" | xargs grep -E '*-00002' -A 1 > Second_transcripts
 # I think because the genome file has the scaffold on a single line, while the fasta file from Roz reads it as separate lines. 
 # Instead - use the command above to get the names of the genes:
 
+find . -name "WBPS15gff3_pep.fasta" | xargs grep -E '*-00002'> Second_transcripts
+
+# Make the genelist for the gene name alone (Roz's file had gene=Hcon etc as an additional bit after a space which was mucking stuff up).
+awk '{print $1}' Second_transcripts > Second_transcripts_GENELIST.txt
+
+# You will also need to make Roz's file have just the gene name in it (.* means continue until I tell you to stop - in this case until the end of the line)
+sed 's/gene=H.*//g' WBPS15gff3_pep.fasta > new_WBPS15gff3_pep.fasta
+
 # Then take this genelist and do the following:
-while read NAME; do samtools faidx WBPS15gff3_pep.fasta ${NAME} >> \
+while read NAME; do samtools faidx new_WBPS15gff3_pep.fasta ${NAME} >> \
 Second_transcript_WBPS15gff3_pep.fasta; done < \
 Second_transcripts_GENELIST.txt
 
