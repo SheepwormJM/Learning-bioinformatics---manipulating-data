@@ -12,17 +12,39 @@ find . -name "WBPS15gff3_pep.fasta" | xargs grep -E '*-00002' -A 1 > Second_tran
 find . -name "WBPS15gff3_pep.fasta" | xargs grep -E '*-00002'> Second_transcripts
 
 # Make the genelist for the gene name alone (Roz's file had gene=Hcon etc as an additional bit after a space which was mucking stuff up).
-awk '{print $1}' Second_transcripts > Second_transcripts_GENELIST.txt
+awk '{print $1}' Second_transcripts  | sed 's/>//g' > Second_transcripts_GENELIST.txt
 
 # You will also need to make Roz's file have just the gene name in it (.* means continue until I tell you to stop - in this case until the end of the line)
-sed 's/gene=H.*//g' WBPS15gff3_pep.fasta > new_WBPS15gff3_pep.fasta
+# Note that the space is important! Otherwise you still get a space after the gene name on the header line. 
+sed 's/ gene=H.*//g' WBPS15gff3_pep.fasta > new_WBPS15gff3_pep.fasta
 
 # Then take this genelist and do the following:
 while read NAME; do samtools faidx new_WBPS15gff3_pep.fasta ${NAME} >> \
 Second_transcript_WBPS15gff3_pep.fasta; done < \
 Second_transcripts_GENELIST.txt
 
-To get contig 7 extracted: 
+# Worked! 
+
+# So to get just the primary transcripts:
+find . -name "WBPS15gff3_pep.fasta" | xargs grep -E '*-00001'> Primary_transcripts
+awk '{print $1}' Primary_transcripts  | sed 's/>//g' > Primary_transcripts_GENELIST.txt
+
+
+
+#!/bin/sh
+#PBS -l walltime=50:00:00
+#PBS -l cput=50:00:00
+#PBS -l nodes=1:centos6
+
+while read NAME; do samtools faidx new_WBPS15gff3_pep.fasta ${NAME} >> \
+Primary_transcript_WBPS15gff3_pep.fasta; done < \
+Primary_transcripts_GENELIST.txt
+
+
+
+
+
+# To get contig 7 extracted: 
 awk '/>7$/,/>8$/' tc_171026.renamed.fa > scaffold_7
 find . -name "WBPS15gff3_pep.fasta" | awk '/>*-00002$/,/>-00003$/' > Second_transcripts_b
 
