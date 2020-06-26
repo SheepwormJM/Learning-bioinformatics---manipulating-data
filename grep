@@ -1,0 +1,17 @@
+# grep commands
+
+# to extract a scaffold from a genome:
+# Note - this extracted the whole scaffold. 
+find . -name "tc_171026.fa" | xargs grep -E '>scaffold2239,*' -A 1 > scaffold_2239
+
+# But this did NOT extract the whole transcript. :( 
+find . -name "WBPS15gff3_pep.fasta" | xargs grep -E '*-0002' -A 1 > Second_transcripts
+
+To get contig 7 extracted: 
+awk '/>7$/,/>8$/' tc_171026.renamed.fa > scaffold_7
+find . -name "WBPS15gff3_pep.fasta" | awk '/>*-00002$/,/>-00003$/' > Second_transcripts_b
+
+# To try to get ALL (head and non-head) contig 7 SNPs into a text file for plotting in R, to do for 4to6 
+# (note the ^ means it has to be at hte start of a line, the $ and the \t means it has a tab straight after the 7 and the ' ' means that exact phrase:
+
+grep $'^7\t' poolseq.mc5.fst_4to6.igv > contig7_4to6.fst.igv
