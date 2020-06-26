@@ -1,0 +1,3 @@
+chmod +x file_name  #make file executable
+chmod o+w file_name  #make it writable for others
+chmod g+r file_name  #make it readable for the group
