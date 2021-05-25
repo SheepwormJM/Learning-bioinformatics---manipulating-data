@@ -52,3 +52,11 @@ find . -name "WBPS15gff3_pep.fasta" | awk '/>*-00002$/,/>-00003$/' > Second_tran
 # (note the ^ means it has to be at hte start of a line, the $ and the \t means it has a tab straight after the 7 and the ' ' means that exact phrase:
 
 grep $'^7\t' poolseq.mc5.fst_4to6.igv > contig7_4to6.fst.igv
+
+
+# To get a range of numbers: 
+egrep "08:[2][5-9]:[0-5][0-9]|08:[3][0-5]:[0-5][0-9]" file
+egrep "HiC_scaffold_[1-6]" file > new_file  # Note that this selected everything which had a 1-6 after the _, including ones that were 3845... as opposed to just 3!
+
+
+
