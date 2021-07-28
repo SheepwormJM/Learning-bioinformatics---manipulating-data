@@ -5,3 +5,127 @@ cat DE_table_file.csv | awk ‘{FS=”\t”; OFS=”\t”}{if ($5 < 0.05){print}
 
 # How would I select only the significant genes but save only the gene ID?
 cat DE_table_file.csv | awk ‘{FS=”\t”; OFS=”\t”}{if ($5 < 0.05){print $1}}’ > results_file.csv
+
+
+##### COURSE - Intro to Linux Shell Scripting #######
+# https://www.udemy.com/course/linux-shell-scripting-free/learn/lecture/10264328#overview
+
+day1.sh # Create a shell script file
+#!/bin/bash
+echo "I don't have to be great to start, but I have to start to be great!"
+# Will print the line to the console
+
+chmod +x day1.sh
+# otherwise get 'permission denied'
+# Note, the .sh is fairly irrelevant... 
+
+# Permissions:
+-rw-r--r-- jmi45g lainglab 
+r = read
+w = write
+x = execute
+- (at start) indicates it's a file. If it was a directory it would be d
+jmi45g is the OWNER of the file (ie. me)
+lainglab (or jim45g or whatever) is the group able to use the file
+So, the owner has permission to read and write, while all other users (group and other) only have permisiion to read. 
+In order to run a file you have to have both r and x permissions on the file. 
+
+# cat
+cat is short for concatenate
+It can be used to print the contents of a file to the screen
+
+# Shebang is #!
+Each shell script has to start with a shebang, followed by a path to the program that will interpret and execute the script
+#!/bin/bash 
+is for bash to interpret your script... 
+If you DON'T specify your interpreter with a shebang then it will use the default - all fine until someone else with a different
+default tries to use it....
+
+# echo
+Just prints something that you've written to it
+echo "type txt here"
+
+# type
+This gives you what the command type is. 
+eg. type echo will return
+echo is a shell builtin 
+(ie. no external program required)
+If you wanted to you could find all different versions of echo on the system using 
+type -a echo
+
+# How to create a variable within a shell script and then use it: 
+#!/bin/bash
+SKILL="shell scripting"
+echo "I want to be good at ${SKILL}. That's why I practice."
+Variables are simply storage locations that have a name. 
+You can think of them as name-value pairs. 
+SKILL is the name
+shell scripting is the value. 
+***NOTE - there are no spaces between the variable name and the value around the = sign!***
+Unlike other programming languages the type of value is irrlevant. 
+If you make a space then you get an error msg 'command not found'. 
+*RULES*
+Names can contain letters, digits and underscores
+BUT - they can ONLY start with a letter or an underscore - not a digit (number)
+Invalid names would be:
+3SKILL
+A-SKILL (dash)
+E@MAIL (@)
+The case doesn't matter - could be upper or lower, but convention uses capital letters so they are 
+easily picked out in the script
+To use a variable do: 
+${NAME}
+$NAME
+If you want to immediately follow the variable name with data bash cannot tell where the variable name
+ends UNLESS you use the {}. So, if you had:
+echo "${SKILL}is fun"
+you would get a result that you ask for
+but...
+echo "$SKILLis fun"
+would jsut return 
+fun
+because the variable name skillis is not present
+The case HAS to match the variable name exactly in the script to your variable name. 
+
+If you put the variable in twice, with different values then the second occurance in the script overwrites 
+the first assignment. 
+Scripts are always read and executed from the top to the bottom
+
+# Adding comments in your script. 
+Soooooo helpful! 
+# Add a comment
+The only time the # sign is not read as a comment is in a sheband #!
+In-line documentation
+
+# Blank lines
+Do nothing, but make the script easier to read
+
+# To write a long script, it can help to write in the comments (sudocode) then the code itself 
+
+e.g. 
+
+sysinfo.sh
+#!/bin/bash
+
+#This script displyas info about the system on which it is executed
+
+# Tell the user the script is starting
+echo "Script is starting"
+
+# Display the hostname of the system
+hostname
+
+# Display the current date and time when this info was collected.
+date
+
+# Display the kernel release followed by the architecture
+uname -r
+uname -m
+
+# Display the disk usage in a human readable format
+df -h #diskfree
+
+# End the script by letting the user know it's done. 
+echo "Script finished"
+
+
