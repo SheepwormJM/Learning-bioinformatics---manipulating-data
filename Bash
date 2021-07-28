@@ -27,7 +27,8 @@ x = execute
 - (at start) indicates it's a file. If it was a directory it would be d
 jmi45g is the OWNER of the file (ie. me)
 lainglab (or jim45g or whatever) is the group able to use the file
-So, the owner has permission to read and write, while all other users (group and other) only have permisiion to read. 
+So, the owner has permission to read and write, while all other users (group and other) only have 
+permision to read. 
 In order to run a file you have to have both r and x permissions on the file. 
 
 # cat
@@ -127,5 +128,41 @@ df -h #diskfree
 
 # End the script by letting the user know it's done. 
 echo "Script finished"
+
+# Making decisions in a script
+#!/bin/bash
+
+# Determine if the user executing this script is the root user or not.
+
+# Display the user ID (note the root user is ALWAYS zero)
+echo "Your UID is ${UID}." # UID is a builtin variable of bash
+
+# Display if the user is the root user or not.
+if [[ "${UID}" -eq 0 ]] 
+# Note the double brackets for if - the command to check is within the [[]]
+# Note the SPACE before and after the command! The [[ and ]] cannot abut the 
+# command, or if itself. You can have more than one space, but you MUST have the sapce! 
+then 
+  echo "You are root."
+else 
+  echo "You are not root."
+fi
+
+# In the above you have two blocks of code within the if part 
+# the then and the else... Can have multiple lines of code wihtin each. 
+
+# For numbers for if... (arithmetic test operators)
+# -eq is equal to
+# -ne is not equal
+# -lt is less than 
+# -gt is greater than
+# -ge is greater than or equal to
+
+# If you want to look at strings then you use = sign. 
+
+# You can also use single brackets for if 
+if [ command ] 
+# but using the two bracket syntax is preferred. 
+# You can run into issues with single brackets. 
 
 
