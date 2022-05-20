@@ -1,0 +1,9 @@
+**history**
+
+Type ```history``` and you'll get all the commands you typed in the session
+
+Type ```history -n``` and it will add numbers to each one
+
+Type ```!55``` to re-run the 55th command you used that session 
+
+Type ```!head``` or ```!grep``` to re-run the most recent use of that command in the session
