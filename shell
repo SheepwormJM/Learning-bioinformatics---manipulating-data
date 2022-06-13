@@ -4,3 +4,25 @@ The shell has other wildcards as well, though they are less commonly used:
 ```?``` matches a single character, so 201?.txt will match 2017.txt or 2018.txt, but not 2017-01.txt.
 ```[...]``` matches any one of the characters inside the square brackets, so 201[78].txt matches 2017.txt or 2018.txt, but not 2016.txt.
 ```{...}``` matches any of the comma-separated patterns inside the curly brackets, so {*.txt, *.csv} matches any file whose name ends with .txt or .csv, but not files whose names end with .pdf.
+
+
+```sort```
+As its name suggests, sort puts data in order. By default it does this in ascending alphabetical order, but the flags -n and -r can be used to sort numerically and reverse the order of its output, while -b tells it to ignore leading blanks and -f tells it to fold case (i.e., be case-insensitive). Pipelines often use grep to get rid of unwanted records and then sort to put the remaining records in order.
+
+```uniq```
+This removes ADJACENT duplicate lines. Handy. But remember - you would need to ```sort``` then pipe to ```uniq``` or it will not remove all duplicates!
+
+Note - this will produce a count of how often each uniq results occurs in the file! 
+
+```cut -d , -f 2 file.name | grep -v Tooth | sort | uniq -c```
+
+Will take a file (file.name), which has columns separated by commas, and take the second column from it. It will then remove lines with Tooth in them (header line) and sort the rest alphabetically. It will then give a count of how many occurences of each unique entry were in the file (this may be limited to # of lines) - e.g. how many times did 'molar' occur? 
+
+Note that you can put an output file at the start or end of your shell/pipe command. 
+
+```> out.file head -n 3 input.file```
+and 
+```head -n 3 input.file > out.file``` give the same results.
+HOWEVER - note that you cannot specify an output file mid-way through a pipe command - it will produce the file and stop and fail. 
+
+
