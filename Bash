@@ -1,3 +1,5 @@
+https://www.datacamp.com/tutorial/shell-commands-data-scientist
+
 # Using Bash
 
 # How would I select only the significant genes?
