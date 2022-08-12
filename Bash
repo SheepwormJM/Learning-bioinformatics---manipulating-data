@@ -166,3 +166,74 @@ if [ command ]
 # You can run into issues with single brackets. 
 
 
+If you want to list all the files in a directory do: 
+```
+ls -l <folder> | wc -l
+
+# wc -l counts lines
+# wc -w counts words
+```
+
+To concatenate two files (the second below the first):
+```
+cat file1 file2 > filenew
+```
+
+To make a file you can use echo:
+```
+echo "Let's write some words into a file." > newfile
+
+echo "age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,native-country,class" > header.csv
+```
+
+The 'shell redirection' is:
+```
+>
+```
+It will dump the contents before into a new file. Note that it will overwrite files too!
+```
+>>
+``` 
+Will not overwrite a file but will put the new information to the end of an existing file.
+
+
+You can combine ```head``` and ```tail``` to get a selection of lines: 
+```
+head -n 120 adult.csv | tail -n 20 > adult_sample.csv
+```
+will get the lines 101 to 120 from the adult.csv file. 
+
+
+**Finding Duplicates with uniq**
+
+With the uniq command you can find adjacent repeated lines in a file. uniq takes several flags, the more useful ones being:
+```
+uniq -c: which adds the repetition count to each line;
+uniq -d: which only outputs duplicate lines; And
+uniq -u: which only outputs unique lines.
+```
+However, **uniq is not a smart command**. Repeated lines will not be detected if they are not adjacent. Which means that **you first need the sort the file.**
+
+```
+sort -k 2 -k1 test # This will sort the test file by the second column TO THE END OF THE FILE and then the first. 
+
+sort -k 2,2 -k1 test # This will sort by col 2 alone and then by column 1. 
+```
+
+echo is used to write words to a file. 
+```
+echo -e # means that several other subcommands can then come into play
+```
+
+```
+echo -e "too\ntoo\nfoo\nfun\nbun\nsun\ntoo" > test  # \n after -e gives a new line
+```
+```
+(picard-2.5.0-2) jm62@pcs6-head2:~/lustre118_link/playground$ echo -e "Please note\tthat I\vdo not\nexpect\\vyou to\vbe\vanswering this"
+Please note     that I
+                      do not
+expect
+      you to
+            be
+              answering this
+```
