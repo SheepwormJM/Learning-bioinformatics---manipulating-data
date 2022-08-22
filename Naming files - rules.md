@@ -1,0 +1,1 @@
+Oh yes...shell metacharacters like ```*```, ```?```, ```!```, and ```+``` should be avoided in UNIX filenames/directory names in general. They are technically allowed on most UNIX filesystems but they will cause problems with most UNIX shells/command lines as they will have to be appropriately quoted or escaped.
