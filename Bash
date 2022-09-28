@@ -239,3 +239,13 @@ expect
             be
               answering this
 ```
+
+
+Remove
+```
+rm file
+
+rm -r directory
+
+rm [0-9]file   # This will remove all numbered files 0 to 9 of the file name match
+```
