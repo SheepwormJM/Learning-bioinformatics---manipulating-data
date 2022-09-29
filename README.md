@@ -4,3 +4,5 @@ This will include information about manipulating large datasets: in Bash, in R e
 
 Some maybe useful websites:
 https://regex101.com/ This lets you test regular expressions - which you can then put into awk and grep etc. Note that it requires the regular expression ONLY. Not the apostrophes either side, nor the rest of the command....
+
+Check out this website for linux, and this page for bash: https://linuxhandbook.com/tag/bash-beginner/
